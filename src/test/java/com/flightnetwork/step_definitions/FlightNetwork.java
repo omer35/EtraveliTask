@@ -67,13 +67,18 @@ public class FlightNetwork {
 
     @And("user selects passenger number {string}")
     public void userSelectsPassengerNumber(String arg0) {
-        main.selectPassenger(arg0);
+       // main.selectPassenger(arg0);
+        main.passengerClick.click();
+
+
     }
 
     @Then("user should see {string}")
     public void userShouldSee(String ExpectedFlightResult) {
         String ActualFlightResult=flight.DepartureAirport.getText()+" - "+flight.ArrivalAirport.getText()+" "+flight.DepartureDate.getText()+" - "+flight.ReturnDate.getText()+" "+flight.passangerInfoFlightPage.getText();
         System.out.println("flightResult = " + ActualFlightResult);
+        System.out.println("ExpectedFlightResult = " + ExpectedFlightResult);
+        Assert.assertEquals(ExpectedFlightResult,ActualFlightResult);
 
     }
 
@@ -95,7 +100,7 @@ public class FlightNetwork {
     }
 
 
-    @When("User should see display all available flights, matching the searching criteria")
+    /*@When("User should see display all available flights, matching the searching criteria")
     public void user_should_see_display_all_available_flights_matching_the_searching_criteria() {
 
         String expextedDepartureAirport="Athens";
@@ -122,7 +127,7 @@ public class FlightNetwork {
         Assert.assertEquals(main.returnDateSelect.getText(),flight.ReturnDate.getText());
 
 
-    }
+    }*/
     @Then("User can click Filter button and can be applied")
     public void user_can_click_filter_button_and_can_be_applied() {
         BrowserUtils.waitFor(2);

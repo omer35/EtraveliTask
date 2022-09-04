@@ -2,10 +2,12 @@ package com.flightnetwork.pages;
 
 import com.flightnetwork.utilities.Driver;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
 
 public class MainPage extends BasePage{
+    Actions actions =new Actions(Driver.getDriver());
     public MainPage(){
         PageFactory.initElements(Driver.getDriver(), this);
     }
@@ -31,13 +33,23 @@ public class MainPage extends BasePage{
     public WebElement returnDateSelect;
 
     @FindBy(xpath = "//div[@class='css-1a8en2k em00kgn0']")
-    public WebElement passenger;
+    public WebElement passengerClick;
 
-    public void selectPassenger(String passengerAmaountString){
+    @FindBy(xpath = "(//div[@class='css-1a8en2k em00kgn0']/div)[1]/div/div/div/span[1]")
+    public WebElement passengerSelect;
+
+    public void selectPassenger(String passengerAmaountString) throws InterruptedException {
         int passengerAmount=Integer.parseInt(passengerAmaountString);
         for (int i=0; i<=passengerAmount;i++){
             System.out.println("passengerAmount = " + passengerAmount);
-            passenger.click();
+            passengerClick.click();
+            Thread.sleep(2000);
+            passengerSelect.click();
+            Thread.sleep(2000);
+            actions.moveByOffset(80,450).perform();
+            Thread.sleep(4000);
+            actions.click().perform();
+            Thread.sleep(2000);
             statu.click();
             i++;
         }
