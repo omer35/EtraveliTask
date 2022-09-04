@@ -9,8 +9,13 @@ import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
 import org.junit.Assert;
+import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
+import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
+
+import java.util.Arrays;
+import java.util.List;
 
 
 public class FlightNetwork {
@@ -27,25 +32,26 @@ public class FlightNetwork {
         main.cookies.click();
 
     }
-    @When("User can complete all the required fields")
-    public void user_can_complete_all_the_required_fields() {
+    @When("User selects {string}, {string}, {string}, {string} and clicks Search Flight Button")
+    public void userSelects(String departureAirport, String ArrivalAirport, String departureDate, String returnDate) {
         main.from.click();
-        actions.sendKeys("Athens").perform();
+        actions.sendKeys(departureAirport).perform();
         BrowserUtils.waitFor(2);
         actions.sendKeys(Keys.ENTER).perform();
 
         BrowserUtils.waitFor(1);
         main.to.click();
-        actions.sendKeys("Rome").perform();
+        actions.sendKeys(ArrivalAirport).perform();
         BrowserUtils.waitFor(2);
         actions.sendKeys(Keys.ENTER).perform();
-        main.departureDate.click();
-        BrowserUtils.waitFor(1);
 
-        main.departureDateSelect.click();
-        main.returnDate.click();
+        main.departureDateClick.click();
         BrowserUtils.waitFor(1);
-        main.returnDateSelect.click();
+        Driver.getDriver().findElement(By.xpath("//div[@class='DayPicker-Day'][contains(@aria-label,'"+departureDate+"')]")).click();
+
+        main.returnDateClick.click();
+        BrowserUtils.waitFor(1);
+        Driver.getDriver().findElement(By.xpath("//div[@class='DayPicker-Day'][contains(@aria-label,'"+returnDate+"')]")).click();
 
         main.passanger.click();
         BrowserUtils.waitFor(1);
@@ -55,23 +61,34 @@ public class FlightNetwork {
 
         main.directFly.click();
 
-    }
-    @When("User can click Search Flights Button")
-    public void user_can_click_search_flights_button() {
         BrowserUtils.waitFor(1);
         main.searchBtn.click();
-
     }
+
     @When("User should see display all available flights, matching the searching criteria")
     public void user_should_see_display_all_available_flights_matching_the_searching_criteria() {
-        BrowserUtils.waitFor(2);
-        Assert.assertTrue(flight.verifyText.getText().contains(main.from.getText()));
-        Assert.assertTrue(flight.verifyText.getText().contains(main.to.getText()));
-        BrowserUtils.waitFor(1);
-      //  Assert.assertTrue(main.departureDateSelect.getText().contains(flight.verifyDate.getText()));
-      //  Assert.assertTrue(main.returnDateSelect.getText().contains(flight.verifyDate.getText()));
-      //  BrowserUtils.waitFor(1);
+        String expextedDepartureAirport="Athens";
+        String expextedArrivalAirport="Rome";
+        BrowserUtils.waitFor(3);
+        System.out.println("Expected Departure Airport = " + expextedDepartureAirport);
+        System.out.println("Actual Departure Airport = " + flight.DepartureAirport.getText());
+        Assert.assertEquals(expextedDepartureAirport,flight.DepartureAirport.getText());
 
+
+        Assert.assertEquals(expextedArrivalAirport,flight.ArrivalAirport.getText());
+        System.out.println("Expected Arrival Airport = " + expextedArrivalAirport);
+        System.out.println("Actual Arrival Airport = " + flight.ArrivalAirport.getText());
+
+        BrowserUtils.waitFor(1);
+//        System.out.println("Expected Departure date = " + main.departureDateSelect.getText());
+        String initialDepartureDate=flight.DepartureDate.getText();
+        String actualDepartureDate=initialDepartureDate.substring(3,initialDepartureDate.length()-1);
+        System.out.println("Actual Departure date = " + actualDepartureDate);
+        Assert.assertEquals(main.departureDateSelect.getText(),flight.DepartureDate.getText());
+
+      //  System.out.println("Expected Return date = " + main.returnDateSelect.getText());
+        System.out.println("Actual Return date = " + flight.ReturnDate.getText());
+        Assert.assertEquals(main.returnDateSelect.getText(),flight.ReturnDate.getText());
 
 
     }
@@ -106,6 +123,13 @@ public class FlightNetwork {
     }
     @Then("User verify the changes")
     public void user_verify_the_changes() {
+   //     for (WebElement each : flight.AirlineVerify) {
+       //     System.out.println(Arrays.asList(each.getText()));
 
+
+       // Assert.assertTrue(flight.AirlineVerify.getText().contains(flight.AirlinesSelectOne.getText()));
     }
+
+
 }
+

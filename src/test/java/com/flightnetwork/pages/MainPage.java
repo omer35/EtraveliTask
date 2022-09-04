@@ -12,17 +12,17 @@ public class MainPage extends BasePage{
     @FindBy(xpath = "//button[@class='_1hglkl65 _1hglkl60 _1hglkl63 css-8ftosc']")
     public WebElement cookies;
 
-    @FindBy(xpath = "//div[@class=' css-1hwfws3']")
+    @FindBy(xpath = "(//div[@class=' css-1hwfws3'])[1]")
     public WebElement from;
 
     @FindBy(xpath = "(//div[@class=' css-1hwfws3'])[2]")
     public WebElement to;
 
     @FindBy(xpath= "//input[@placeholder='Departure']")
-    public WebElement departureDate;
+    public WebElement departureDateClick;
 
     @FindBy(xpath = "//input[@placeholder='Return']")
-    public WebElement returnDate;
+    public WebElement returnDateClick;
 
     @FindBy(xpath = "//div[@class='DayPicker-Day'][contains(@aria-label,'Thu Sep 15 2022')]")
     public WebElement departureDateSelect;
@@ -43,11 +43,8 @@ public class MainPage extends BasePage{
     @FindBy(xpath = "//input[@class='_3n3vnt1']")
     public WebElement directFly;
 
-
-
     @FindBy(xpath = "//button[@data-testid='searchForm-searchFlights-button']")
     public WebElement searchBtn;
-
 
 
 

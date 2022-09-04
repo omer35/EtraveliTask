@@ -5,6 +5,9 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
 
+import javax.xml.xpath.XPath;
+import java.util.List;
+
 public class FlightPage extends BasePage{
     public FlightPage(){
         PageFactory.initElements(Driver.getDriver(), this);
@@ -12,11 +15,18 @@ public class FlightPage extends BasePage{
     @FindBy(xpath = "//span[@class='css-1ubn1th ewhyijf6']")
     public WebElement filter;
 
-    @FindBy(xpath = "//div[@data-testid='tripDetails-title-TitleText']")
-    public WebElement verifyText;
+    @FindBy(xpath = "(//div[@data-testid='tripDetails-title-TitleText']/span)[1]")
+    public WebElement DepartureAirport;
 
-    @FindBy(xpath = "//div[@data-testid='tripDetails-title-date-desktop']")
-    public WebElement verifyDate;
+    @FindBy(xpath = "(//div[@data-testid='tripDetails-title-TitleText']/span)[3]")
+    public WebElement ArrivalAirport;
+
+
+    @FindBy(xpath = "(//div[@data-testid='tripDetails-title-date-desktop']/span)[1]")
+    public WebElement DepartureDate;
+
+    @FindBy(xpath = "(//div[@data-testid='tripDetails-title-date-desktop']/span)[3]")
+    public WebElement ReturnDate;
 
     @FindBy(xpath = "//label[@data-testid='MAX_STOPS-direct']")
     public WebElement NumberOfStop;
@@ -24,9 +34,9 @@ public class FlightPage extends BasePage{
     @FindBy(xpath = "//span[@class='css-powtjg epwz15m1']")
     public WebElement AirlinesClear;
 
-    @FindBy(xpath = "//input[@value='A3']")
+    @FindBy(xpath = "(//input[@class='_3n3vnt1'])[2]")
     public WebElement AirlinesSelectOne;
-    @FindBy(xpath = "//input[@value='U2']")
+    @FindBy(xpath = "(//input[@class='_3n3vnt1'])[4]")
     public WebElement AirlinesSelectTwo;
 
     @FindBy(xpath= "(//div[@class='_3won560 welvw82 _3won567 _3won562'])[7]")
@@ -54,6 +64,9 @@ public class FlightPage extends BasePage{
 
     @FindBy(xpath = "//span[text() = 'Done']")
     public WebElement DoneBtn;
+
+    @FindBy(xpath = "//div[@class='css-akpcxl e1ngmrql4']")
+    public List<WebElement> AirlineVerify;
 
 
 
