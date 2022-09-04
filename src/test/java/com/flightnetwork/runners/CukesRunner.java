@@ -20,7 +20,7 @@ import org.junit.runner.RunWith;
             features = "src/test/resources/features",
             glue = "com/flightnetwork/step_definitions",
             dryRun = false,
-            tags = ""
+            tags = "@FN-001"
     )
 
     public class CukesRunner {

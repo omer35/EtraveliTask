@@ -31,9 +31,18 @@ public class MainPage extends BasePage{
     public WebElement returnDateSelect;
 
     @FindBy(xpath = "//div[@class='css-1a8en2k em00kgn0']")
-    public WebElement passanger;
-    @FindBy(xpath = "//span[@class='css-1hzxbkx ebeiyi70']")
-    public WebElement passanger2;
+    public WebElement passenger;
+
+    public void selectPassenger(String passengerAmaountString){
+        int passengerAmount=Integer.parseInt(passengerAmaountString);
+        for (int i=0; i<=passengerAmount;i++){
+            System.out.println("passengerAmount = " + passengerAmount);
+            passenger.click();
+            statu.click();
+            i++;
+        }
+    }
+
 
     @FindBy(xpath = "(//div[@class='css-fv3lde css-1wy0on6'])[2]")
     public WebElement statu;

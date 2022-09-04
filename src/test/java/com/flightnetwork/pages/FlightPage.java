@@ -28,6 +28,9 @@ public class FlightPage extends BasePage{
     @FindBy(xpath = "(//div[@data-testid='tripDetails-title-date-desktop']/span)[3]")
     public WebElement ReturnDate;
 
+    @FindBy(xpath = "//div[@data-testid='tripDetails-title-travelers-desktop']")
+    public WebElement passangerInfoFlightPage;
+
     @FindBy(xpath = "//label[@data-testid='MAX_STOPS-direct']")
     public WebElement NumberOfStop;
 
