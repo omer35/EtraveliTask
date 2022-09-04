@@ -93,7 +93,7 @@ public class FlightNetwork {
         BrowserUtils.waitFor(2);
         actions.dragAndDropBy(flight.PriceBegin, 104,257).perform();
 
-       // BrowserUtils.waitFor(2);
+        BrowserUtils.waitFor(2);
        // actions.dragAndDropBy(flight.FromLast, 750,707).perform();
 
        // BrowserUtils.waitFor(2);
