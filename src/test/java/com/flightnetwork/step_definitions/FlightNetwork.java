@@ -12,20 +12,23 @@ import io.cucumber.java.en.When;
 import org.junit.Assert;
 import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
+import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
 
-
+import java.util.*;
 
 
 public class FlightNetwork {
 
     MainPage main = new MainPage();
     FlightPage flight = new FlightPage();
-    Actions actions=new Actions(Driver.getDriver());
+    Actions actions = new Actions(Driver.getDriver());
+    Set<String> setExpected = new HashSet<String>();
+    String FlightTimeExpected="";
 
     @Given("User lands on main page")
     public void user_lands_on_main_page() {
-        String url= ConfigurationReader.getProperty("url");
+        String url = ConfigurationReader.getProperty("url");
         Driver.getDriver().get(url);
         BrowserUtils.waitFor(1);
         main.cookies.click();
@@ -53,7 +56,7 @@ public class FlightNetwork {
     public void userSelectsDepartureDate(String expectedDepartureDate) {
         main.departureDateClick.click();
         BrowserUtils.waitFor(1);
-        Driver.getDriver().findElement(By.xpath("//div[@class='DayPicker-Day'][contains(@aria-label,'"+expectedDepartureDate+"')]")).click();
+        Driver.getDriver().findElement(By.xpath("//div[@class='DayPicker-Day'][contains(@aria-label,'" + expectedDepartureDate + "')]")).click();
 
     }
 
@@ -61,24 +64,23 @@ public class FlightNetwork {
     public void userSelectsReturnDate(String expectedReturnDate) {
         main.returnDateClick.click();
         BrowserUtils.waitFor(1);
-        Driver.getDriver().findElement(By.xpath("//div[@class='DayPicker-Day'][contains(@aria-label,'"+expectedReturnDate+"')]")).click();
+        Driver.getDriver().findElement(By.xpath("//div[@class='DayPicker-Day'][contains(@aria-label,'" + expectedReturnDate + "')]")).click();
 
     }
 
     @And("user selects passenger number {string}")
     public void userSelectsPassengerNumber(String arg0) {
-       // main.selectPassenger(arg0);
-        main.passengerClick.click();
 
+        main.passengerClick.click();
 
     }
 
     @Then("user should see {string}")
     public void userShouldSee(String ExpectedFlightResult) {
-        String ActualFlightResult=flight.DepartureAirport.getText()+" - "+flight.ArrivalAirport.getText()+" "+flight.DepartureDate.getText()+" - "+flight.ReturnDate.getText()+" "+flight.passangerInfoFlightPage.getText();
+        String ActualFlightResult = flight.DepartureAirport.getText() + " - " + flight.ArrivalAirport.getText() + " " + flight.DepartureDate.getText() + " - " + flight.ReturnDate.getText() + " " + flight.passangerInfoFlightPage.getText();
         System.out.println("flightResult = " + ActualFlightResult);
         System.out.println("ExpectedFlightResult = " + ExpectedFlightResult);
-        Assert.assertEquals(ExpectedFlightResult,ActualFlightResult);
+        Assert.assertEquals(ExpectedFlightResult, ActualFlightResult);
 
     }
 
@@ -99,35 +101,6 @@ public class FlightNetwork {
         BrowserUtils.waitFor(4);
     }
 
-
-    /*@When("User should see display all available flights, matching the searching criteria")
-    public void user_should_see_display_all_available_flights_matching_the_searching_criteria() {
-
-        String expextedDepartureAirport="Athens";
-        String expextedArrivalAirport="Rome";
-        BrowserUtils.waitFor(3);
-        System.out.println("Expected Departure Airport = " + expextedDepartureAirport);
-        System.out.println("Actual Departure Airport = " + flight.DepartureAirport.getText());
-        Assert.assertEquals(expextedDepartureAirport,flight.DepartureAirport.getText());
-
-
-        Assert.assertEquals(expextedArrivalAirport,flight.ArrivalAirport.getText());
-        System.out.println("Expected Arrival Airport = " + expextedArrivalAirport);
-        System.out.println("Actual Arrival Airport = " + flight.ArrivalAirport.getText());
-
-        BrowserUtils.waitFor(1);
-//        System.out.println("Expected Departure date = " + main.departureDateSelect.getText());
-        String initialDepartureDate=flight.DepartureDate.getText();
-        String actualDepartureDate=initialDepartureDate.substring(3,initialDepartureDate.length()-1+1);
-        System.out.println("Actual Departure date = " + actualDepartureDate);
-        Assert.assertEquals(main.departureDateSelect.getText(),flight.DepartureDate.getText());
-
-      //  System.out.println("Expected Return date = " + main.returnDateSelect.getText());
-        System.out.println("Actual Return date = " + flight.ReturnDate.getText());
-        Assert.assertEquals(main.returnDateSelect.getText(),flight.ReturnDate.getText());
-
-
-    }*/
     @Then("User can click Filter button and can be applied")
     public void user_can_click_filter_button_and_can_be_applied() {
         BrowserUtils.waitFor(2);
@@ -140,33 +113,96 @@ public class FlightNetwork {
         flight.AirlinesSelectOne.click();
         BrowserUtils.waitFor(1);
         flight.AirlinesSelectTwo.click();
+        BrowserUtils.waitFor(2);
+        for (WebElement each2 : flight.AirlineListBox) {
+            if(each2.isSelected()) {
 
+                    String eachTextExpected = flight.AirlineListText.getText();
+                    setExpected.add(eachTextExpected);
+            }
+        }
+        System.out.println("setExpected = " + setExpected);
         flight.Arrival.click();
 
         BrowserUtils.waitFor(2);
-        actions.dragAndDropBy(flight.PriceBegin, 104,257).perform();
+        actions.dragAndDropBy(flight.PriceBegin, 104, 100).perform();
 
         BrowserUtils.waitFor(2);
-       // actions.dragAndDropBy(flight.FromLast, 750,707).perform();
+        actions.dragAndDropBy(flight.FromLast, -300, 100).perform();
 
-       // BrowserUtils.waitFor(2);
-       // actions.dragAndDropBy(flight.ToBegin, 100,707).perform();
-      //  BrowserUtils.waitFor(2);
-      //  actions.dragAndDropBy(flight.ToLast, 140,707).perform();
+        BrowserUtils.waitFor(2);
+        actions.dragAndDropBy(flight.ToBegin, 100, 100).perform();
+        BrowserUtils.waitFor(2);
+        actions.dragAndDropBy(flight.ToLast, -100, 100).perform();
 
-     //   BrowserUtils.waitFor(2);
-     //   actions.dragAndDropBy(flight.TravelTime, 71,819).perform();
+        BrowserUtils.waitFor(2);
+        actions.dragAndDropBy(flight.TravelTime, -150, 100).perform();
+        BrowserUtils.waitFor(2);
+        FlightTimeExpected = flight.TravelTimeExpected.getText();
+        System.out.println("FlightTimeExpected = " + flight.TravelTimeExpected);
+        BrowserUtils.waitFor(2);
+        flight.DoneBtn.click();
     }
+
     @Then("User verify the changes")
     public void user_verify_the_changes() {
-   //     for (WebElement each : flight.AirlineVerify) {
-       //     System.out.println(Arrays.asList(each.getText()));
+        Set<String> setActual = new HashSet<String>();
 
+        for (WebElement each : flight.AirlineVerify) {
+            String eachText = each.getText();
+            setActual.add(eachText);
+        }
+            System.out.println("setActual = " + setActual);
+            System.out.println("setExpected = " + setExpected);
 
-       // Assert.assertTrue(flight.AirlineVerify.getText().contains(flight.AirlinesSelectOne.getText()));
+            Assert.assertEquals(setExpected, setActual);
+
+        List<String> FlightTimeActual=new ArrayList<>();
+        for (WebElement eachFtime : flight.TravelTimeActual){
+            String eachFtimeText = eachFtime.getText();
+            FlightTimeActual.add(eachFtimeText);
+        }
+        System.out.println("FlightTimeActual = " + FlightTimeActual);
+
     }
 
+    @And("user selects adult number {string}")
+    public void userSelectsAdultNumber(String arg0) {
+        int adultNumber= Integer.parseInt(arg0);
+        main.passengerClick.click();
+        BrowserUtils.waitFor(2);
+        for(int i=1; i<adultNumber;i++){
+            main.AdultPlusBtn.click();
+            BrowserUtils.waitFor(2);
+        }
 
+    }
 
+    @And("user selects children number {string}")
+    public void userSelectsChildrenNumber(String arg0) {
+        int ChildrenNumber= Integer.parseInt(arg0);
+        BrowserUtils.waitFor(2);
+        if(ChildrenNumber>0) {
+            for (int i = 1; i <= ChildrenNumber; i++) {
+                main.ChildrenPlusBtn.click();
+                BrowserUtils.waitFor(2);
+            }
+            for (int j = 1; j <= 3; j++) {
+                main.ChildrenAgePlusBtn.click();
+                BrowserUtils.waitFor(1);
+            }
+        }
 }
 
+    @And("user selects infants number {string}")
+    public void userSelectsInfantsNumber(String arg0) {
+        int InfantsNumber = Integer.parseInt(arg0);
+        BrowserUtils.waitFor(2);
+        if(InfantsNumber>0){
+        for (int i = 1; i <= InfantsNumber; i++) {
+            main.InfantsPlusBtn.click();
+            BrowserUtils.waitFor(2);
+        }
+        }
+    }
+}

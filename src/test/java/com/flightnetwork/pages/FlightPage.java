@@ -5,7 +5,6 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
 
-import javax.xml.xpath.XPath;
 import java.util.List;
 
 public class FlightPage extends BasePage{
@@ -45,31 +44,53 @@ public class FlightPage extends BasePage{
     @FindBy(xpath= "(//div[@class='_3won560 welvw82 _3won567 _3won562'])[7]")
     public WebElement Arrival;
 
-    @FindBy(xpath = "//div[@class='css-13vekqn']")
+    @FindBy(xpath = "(//div[@data-testid='handle-0'])[1]")
     public WebElement PriceBegin;
-    @FindBy(xpath = "//div[@class='css-o9ojlh']")
+    @FindBy(xpath = "(//div[@data-testid='handle-1'])[1]")
     public WebElement PriceLast;
 
 
-    @FindBy(xpath = "(//div[@class='css-13vekqn'])[2]")
+    @FindBy(xpath = "(//div[@data-testid='handle-0'])[2]")
     public WebElement FromBegin;
-    @FindBy(xpath = "(//div[@class='css-o9ojlh'])[2]")
+
+    @FindBy(xpath="(//div[@data-testid='handle-1'])[2]")
     public WebElement FromLast;
 
 
-    @FindBy(xpath = "(//div[@class='css-13vekqn'])[3]")
+    @FindBy(xpath = "(//div[@data-testid='handle-0'])[3]")
     public WebElement ToBegin;
-    @FindBy(xpath = "(//div[@class='css-o9ojlh'])[3]")
+    @FindBy(xpath = "(//div[@data-testid='handle-1'])[3]")
     public WebElement ToLast;
 
-    @FindBy(xpath = "(//div[@class='css-o9ojlh'])[4]")
+    @FindBy(xpath = "(//div[@data-testid='handle-0'])[4]")
     public WebElement TravelTime;
 
-    @FindBy(xpath = "//span[text() = 'Done']")
+    @FindBy(xpath = "//button[@data-testid='filtersForm-applyFilters-button']")
     public WebElement DoneBtn;
 
     @FindBy(xpath = "//div[@class='css-akpcxl e1ngmrql4']")
     public List<WebElement> AirlineVerify;
+
+    @FindBy(xpath = "//input[@type='checkbox']")
+   public List<WebElement> AirlineListBox;
+
+    @FindBy(xpath = "//*[@id=\"root\"]/div/div/main/div/div/div/div/section/div/div/ul/li/label")
+    public WebElement AirlineListText;
+
+
+
+    @FindBy(xpath = "(//div[@class='css-q8818v'])[4]")
+    public WebElement TravelTimeExpected;
+
+    @FindBy(xpath = "//p[@data-testid='searchResults-segment-duration']")
+    public List<WebElement> TravelTimeActual;
+
+
+
+
+
+
+
 
 
 

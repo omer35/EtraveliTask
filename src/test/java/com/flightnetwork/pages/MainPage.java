@@ -35,26 +35,35 @@ public class MainPage extends BasePage{
     @FindBy(xpath = "//div[@class='css-1a8en2k em00kgn0']")
     public WebElement passengerClick;
 
-    @FindBy(xpath = "(//div[@class='css-1a8en2k em00kgn0']/div)[1]/div/div/div/span[1]")
-    public WebElement passengerSelect;
+    @FindBy(xpath = "//button[@data-testid='counter-adults-minus-button']")
+    public WebElement AdultMinusBtn;
 
-    public void selectPassenger(String passengerAmaountString) throws InterruptedException {
-        int passengerAmount=Integer.parseInt(passengerAmaountString);
-        for (int i=0; i<=passengerAmount;i++){
-            System.out.println("passengerAmount = " + passengerAmount);
-            passengerClick.click();
-            Thread.sleep(2000);
-            passengerSelect.click();
-            Thread.sleep(2000);
-            actions.moveByOffset(80,450).perform();
-            Thread.sleep(4000);
-            actions.click().perform();
-            Thread.sleep(2000);
-            statu.click();
-            i++;
-        }
-    }
+    @FindBy(xpath = "//button[@data-testid='counter-adults-plus-button']")
+    public WebElement AdultPlusBtn;
 
+    @FindBy(xpath = "//button[@data-testid='counter-children-minus-button']")
+    public WebElement ChildrenMinusBtn;
+
+    @FindBy(xpath = "//button[@data-testid='counter-children-plus-button']")
+    public WebElement ChildrenPlusBtn;
+
+    @FindBy(xpath = "//button[@data-testid='counter-infants-minus-button']")
+    public WebElement InfantsMinusBtn;
+
+    @FindBy(xpath = "//button[@data-testid='counter-infants-plus-button']")
+    public WebElement InfantsPlusBtn;
+
+    @FindBy(xpath = "//button[@data-testid='counter-child-0-age-minus-button']")
+    public WebElement ChildrenAgeMinusBtn;
+
+    @FindBy(xpath = "//button[@data-testid='counter-child-0-age-plus-button']")
+    public WebElement ChildrenAgePlusBtn;
+
+    @FindBy(xpath = "//button[@data-testid='counter-infant-0-age-minus-button']")
+    public WebElement InfantsAgeMinusBtn;
+
+    @FindBy(xpath = "//button[@data-testid='counter-infant-0-age-plus-button']")
+    public WebElement InfantsAgePlusBtn;
 
     @FindBy(xpath = "(//div[@class='css-fv3lde css-1wy0on6'])[2]")
     public WebElement statu;
