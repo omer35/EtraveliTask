@@ -23,8 +23,12 @@ public class FlightNetwork {
     MainPage main = new MainPage();
     FlightPage flight = new FlightPage();
     Actions actions = new Actions(Driver.getDriver());
-    List<String> listExpected = new ArrayList<>();
-    String FlightTimeExpected="";
+    Set<String> listExpected = new HashSet<String>();
+     String FilterTimeExpected="";
+    List<String> FlightTimeActual=new ArrayList<>();
+     String FilterTimeSecond="";
+    int FilterTimeAsNumber=0;
+
 
     @Given("User lands on main page")
     public void user_lands_on_main_page() {
@@ -114,20 +118,13 @@ public class FlightNetwork {
         BrowserUtils.waitFor(2);
         flight.AirlinesSelectTwo.click();
         BrowserUtils.waitFor(2);
-        for (int i = 0; i < flight.AirlineListBox.size(); i++) {
+        for (int i = 1; i < flight.AirlineListBox.size(); i++) {
             if(flight.AirlineListBox.get(i).isSelected()){
-                listExpected.add(flight.AirlineListText.get(i).getText());
+                listExpected.add(flight.AirlineListText.get(i-1).getText());
 
             }
 
         }
-
-       // for (WebElement each2 : flight.AirlineListBox) {
-
-      //      if(each2.isSelected()) {
-        //        listExpected.add(flight.AirlineListText.get(1).getText());
-       //     }
-      //  }
 
         System.out.println("ListExpected = " + listExpected);
         flight.Arrival.click();
@@ -146,9 +143,16 @@ public class FlightNetwork {
         BrowserUtils.waitFor(2);
         actions.dragAndDropBy(flight.TravelTime, -150, 100).perform();
         BrowserUtils.waitFor(2);
-        FlightTimeExpected = flight.TravelTimeExpected.getText();
-        System.out.println("FlightTimeExpected = " + flight.TravelTimeExpected);
+
+        FilterTimeExpected = flight.TravelTimeExpected.getText();
+        System.out.println("FilterTimeExpected = " + FilterTimeExpected);
         BrowserUtils.waitFor(2);
+        FilterTimeSecond=FilterTimeExpected.substring(0,FilterTimeExpected.indexOf("h"));
+
+
+        System.out.println("FilterTimeSecond = " + FilterTimeSecond);
+        BrowserUtils.waitFor(2);
+
         flight.DoneBtn.click();
     }
 
@@ -165,12 +169,23 @@ public class FlightNetwork {
 
             Assert.assertEquals(listExpected, setActual);
 
-        List<String> FlightTimeActual=new ArrayList<>();
+
         for (WebElement eachFtime : flight.TravelTimeActual){
             String eachFtimeText = eachFtime.getText();
             FlightTimeActual.add(eachFtimeText);
         }
         System.out.println("FlightTimeActual = " + FlightTimeActual);
+        System.out.println("FilterTimeSecond = " + FilterTimeSecond);
+
+        FilterTimeAsNumber = Integer.parseInt(FilterTimeExpected.substring(0,FilterTimeExpected.indexOf("h")));
+
+
+        for (int i=0; i<FlightTimeActual.size(); i++){
+            String x=FlightTimeActual.get(i);
+            x=x.substring(0,x.indexOf("h"));
+            int FlightTimeActualInt = Integer.parseInt(x);
+            Assert.assertTrue(FilterTimeAsNumber>=FlightTimeActualInt);
+        }
 
     }
 
