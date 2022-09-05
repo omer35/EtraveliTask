@@ -85,6 +85,16 @@ public class FlightPage extends BasePage{
     @FindBy(xpath = "//p[@data-testid='searchResults-segment-duration']")
     public List<WebElement> TravelTimeActual;
 
+    @FindBy(xpath = "//div[@class='css-q8818v']")
+    public List<WebElement> FiltersBeginning;
+
+    @FindBy(xpath = "//div[@class='css-gbzxm']")
+    public List<WebElement> FiltersEnding;
+
+
+
+
+
 
 
 

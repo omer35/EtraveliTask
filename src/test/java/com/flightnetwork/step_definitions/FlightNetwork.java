@@ -15,7 +15,10 @@ import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.*;
+import java.util.concurrent.TimeUnit;
 
 
 public class FlightNetwork {
@@ -24,10 +27,10 @@ public class FlightNetwork {
     FlightPage flight = new FlightPage();
     Actions actions = new Actions(Driver.getDriver());
     Set<String> listExpected = new HashSet<String>();
-     String FilterTimeExpected=new String("");
+    public String FilterTimeExpected=new String("");
     List<String> FlightTimeActual=new ArrayList<>();
-     String FilterTimeSecond=new String("");
-    int FilterTimeAsNumber=0;
+    public String FilterTimeSecond=new String("");
+    public int FilterTimeAsNumber=0;
 
 
     @Given("User lands on main page")
@@ -86,6 +89,45 @@ public class FlightNetwork {
         System.out.println("ExpectedFlightResult = " + ExpectedFlightResult);
         Assert.assertEquals(ExpectedFlightResult, ActualFlightResult);
 
+    }
+    @And("user selects adult number {string}")
+    public void userSelectsAdultNumber(String arg0) {
+        int adultNumber= Integer.parseInt(arg0);
+        main.passengerClick.click();
+        Driver.getDriver().manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
+        for(int i=1; i<adultNumber;i++){
+            main.AdultPlusBtn.click();
+            BrowserUtils.waitFor(2);
+        }
+
+    }
+
+    @And("user selects children number {string}")
+    public void userSelectsChildrenNumber(String arg0) {
+        int ChildrenNumber= Integer.parseInt(arg0);
+        BrowserUtils.waitFor(2);
+        if(ChildrenNumber>0) {
+            for (int i = 1; i <= ChildrenNumber; i++) {
+                main.ChildrenPlusBtn.click();
+                BrowserUtils.waitFor(2);
+            }
+            for (int j = 1; j <= 3; j++) {
+                main.ChildrenAgePlusBtn.click();
+                BrowserUtils.waitFor(1);
+            }
+        }
+    }
+
+    @And("user selects infants number {string}")
+    public void userSelectsInfantsNumber(String arg0) {
+        int InfantsNumber = Integer.parseInt(arg0);
+        BrowserUtils.waitFor(2);
+        if(InfantsNumber>0){
+            for (int i = 1; i <= InfantsNumber; i++) {
+                main.InfantsPlusBtn.click();
+                BrowserUtils.waitFor(2);
+            }
+        }
     }
 
     @And("user selects status {string}")
@@ -159,6 +201,8 @@ public class FlightNetwork {
     @Then("User verify the changes")
     public void user_verify_the_changes() {
         Set<String> setActual = new HashSet<String>();
+        List<String> FiltersTimeAtTheBegin=new ArrayList<>();
+        List<String> FiltersTimeAtTheEnd=new ArrayList<>();
 
         for (WebElement each : flight.AirlineVerify) {
             String eachText = each.getText();
@@ -179,55 +223,42 @@ public class FlightNetwork {
         System.out.println("FilterTimeSecond = " + FilterTimeSecond);
         String xx=FilterTimeSecond;
 
-        FilterTimeAsNumber = Integer.parseInt(xx);
+       // FilterTimeAsNumber = Integer.parseInt(xx);
 
 
-        for (int i=0; i<FlightTimeActual.size(); i++){
+      /*  for (int i=0; i<FlightTimeActual.size(); i++){
             String x=FlightTimeActual.get(i);
             x=x.substring(0,x.indexOf("h"));
             int FlightTimeActualInt = Integer.parseInt(x);
-            Assert.assertTrue(FilterTimeAsNumber>=FlightTimeActualInt);
+            System.out.println(FlightTimeActualInt);
+            //Assert.assertTrue(FilterTimeAsNumber>=FlightTimeActualInt);
+        }*/
+
+        DateFormat dateFormat = new SimpleDateFormat("HH:mm");
+        Date date = new Date();
+        String date1= dateFormat.format(date);
+        for (int i = 0; i < flight.FiltersBeginning.size(); i++) {
+
+            FiltersTimeAtTheBegin.add(flight.FiltersBeginning.get(i).getText());
+            System.out.println(flight.FiltersBeginning.get(i).getText());
+
+
         }
+        for(WebElement each6:flight.FiltersBeginning){
+            String eachFiltersBeginning=each6.getText();
+            System.out.println(eachFiltersBeginning);
+            FiltersTimeAtTheBegin.add(eachFiltersBeginning);
+        }
+        System.out.println("FiltersTimeAtTheBegin = " + FiltersTimeAtTheBegin);
+
+        for(WebElement each7:flight.FiltersEnding){
+            String eachFiltersEnding=each7.getText();
+            System.out.println(eachFiltersEnding);
+            FiltersTimeAtTheEnd.add(eachFiltersEnding);
+        }
+        System.out.println("FiltersTimeAtTheBegin = " + FiltersTimeAtTheEnd);
 
     }
 
-    @And("user selects adult number {string}")
-    public void userSelectsAdultNumber(String arg0) {
-        int adultNumber= Integer.parseInt(arg0);
-        main.passengerClick.click();
-        BrowserUtils.waitFor(2);
-        for(int i=1; i<adultNumber;i++){
-            main.AdultPlusBtn.click();
-            BrowserUtils.waitFor(2);
-        }
 
-    }
-
-    @And("user selects children number {string}")
-    public void userSelectsChildrenNumber(String arg0) {
-        int ChildrenNumber= Integer.parseInt(arg0);
-        BrowserUtils.waitFor(2);
-        if(ChildrenNumber>0) {
-            for (int i = 1; i <= ChildrenNumber; i++) {
-                main.ChildrenPlusBtn.click();
-                BrowserUtils.waitFor(2);
-            }
-            for (int j = 1; j <= 3; j++) {
-                main.ChildrenAgePlusBtn.click();
-                BrowserUtils.waitFor(1);
-            }
-        }
-}
-
-    @And("user selects infants number {string}")
-    public void userSelectsInfantsNumber(String arg0) {
-        int InfantsNumber = Integer.parseInt(arg0);
-        BrowserUtils.waitFor(2);
-        if(InfantsNumber>0){
-        for (int i = 1; i <= InfantsNumber; i++) {
-            main.InfantsPlusBtn.click();
-            BrowserUtils.waitFor(2);
-        }
-        }
-    }
 }
