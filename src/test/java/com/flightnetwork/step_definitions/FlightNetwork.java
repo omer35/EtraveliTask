@@ -23,7 +23,7 @@ public class FlightNetwork {
     MainPage main = new MainPage();
     FlightPage flight = new FlightPage();
     Actions actions = new Actions(Driver.getDriver());
-    Set<String> setExpected = new HashSet<String>();
+    List<String> listExpected = new ArrayList<>();
     String FlightTimeExpected="";
 
     @Given("User lands on main page")
@@ -105,23 +105,31 @@ public class FlightNetwork {
     public void user_can_click_filter_button_and_can_be_applied() {
         BrowserUtils.waitFor(2);
         flight.filter.click();
-        BrowserUtils.waitFor(1);
+        BrowserUtils.waitFor(2);
         flight.NumberOfStop.click();
 
         flight.AirlinesClear.click();
-        BrowserUtils.waitFor(1);
+        BrowserUtils.waitFor(2);
         flight.AirlinesSelectOne.click();
-        BrowserUtils.waitFor(1);
+        BrowserUtils.waitFor(2);
         flight.AirlinesSelectTwo.click();
         BrowserUtils.waitFor(2);
-        for (WebElement each2 : flight.AirlineListBox) {
-            if(each2.isSelected()) {
+        for (int i = 0; i < flight.AirlineListBox.size(); i++) {
+            if(flight.AirlineListBox.get(i).isSelected()){
+                listExpected.add(flight.AirlineListText.get(i).getText());
 
-                    String eachTextExpected = flight.AirlineListText.getText();
-                    setExpected.add(eachTextExpected);
             }
+
         }
-        System.out.println("setExpected = " + setExpected);
+
+       // for (WebElement each2 : flight.AirlineListBox) {
+
+      //      if(each2.isSelected()) {
+        //        listExpected.add(flight.AirlineListText.get(1).getText());
+       //     }
+      //  }
+
+        System.out.println("ListExpected = " + listExpected);
         flight.Arrival.click();
 
         BrowserUtils.waitFor(2);
@@ -153,9 +161,9 @@ public class FlightNetwork {
             setActual.add(eachText);
         }
             System.out.println("setActual = " + setActual);
-            System.out.println("setExpected = " + setExpected);
+            System.out.println("setExpected = " + listExpected);
 
-            Assert.assertEquals(setExpected, setActual);
+            Assert.assertEquals(listExpected, setActual);
 
         List<String> FlightTimeActual=new ArrayList<>();
         for (WebElement eachFtime : flight.TravelTimeActual){

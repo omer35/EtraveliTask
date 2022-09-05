@@ -75,7 +75,7 @@ public class FlightPage extends BasePage{
    public List<WebElement> AirlineListBox;
 
     @FindBy(xpath = "//*[@id=\"root\"]/div/div/main/div/div/div/div/section/div/div/ul/li/label")
-    public WebElement AirlineListText;
+    public List<WebElement> AirlineListText;
 
 
 
