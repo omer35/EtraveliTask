@@ -24,10 +24,10 @@ public class FlightNetwork {
     FlightPage flight = new FlightPage();
     Actions actions = new Actions(Driver.getDriver());
     Set<String> listExpected = new HashSet<String>();
-     String FilterTimeExpected="";
+     String FilterTimeExpected=new String("");
     List<String> FlightTimeActual=new ArrayList<>();
-     String FilterTimeSecond="";
-    Integer FilterTimeAsNumber=0;
+     String FilterTimeSecond=new String("");
+    int FilterTimeAsNumber=0;
 
 
     @Given("User lands on main page")
@@ -164,10 +164,11 @@ public class FlightNetwork {
             String eachText = each.getText();
             setActual.add(eachText);
         }
-            System.out.println("setActual = " + setActual);
-            System.out.println("setExpected = " + listExpected);
+        System.out.println("setActual = " + setActual);
+        System.out.println("setExpected = " + listExpected);
 
-            Assert.assertEquals(listExpected, setActual);
+        Assert.assertTrue(listExpected.containsAll(setActual));
+
 
 
         for (WebElement eachFtime : flight.TravelTimeActual){
@@ -176,8 +177,9 @@ public class FlightNetwork {
         }
         System.out.println("FlightTimeActual = " + FlightTimeActual);
         System.out.println("FilterTimeSecond = " + FilterTimeSecond);
+        String xx=FilterTimeSecond;
 
-        FilterTimeAsNumber = Integer.parseInt(FilterTimeSecond);
+        FilterTimeAsNumber = Integer.parseInt(xx);
 
 
         for (int i=0; i<FlightTimeActual.size(); i++){
