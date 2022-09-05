@@ -27,7 +27,7 @@ public class FlightNetwork {
      String FilterTimeExpected="";
     List<String> FlightTimeActual=new ArrayList<>();
      String FilterTimeSecond="";
-    int FilterTimeAsNumber=0;
+    Integer FilterTimeAsNumber=0;
 
 
     @Given("User lands on main page")
@@ -177,7 +177,7 @@ public class FlightNetwork {
         System.out.println("FlightTimeActual = " + FlightTimeActual);
         System.out.println("FilterTimeSecond = " + FilterTimeSecond);
 
-        FilterTimeAsNumber = Integer.parseInt(FilterTimeExpected.substring(0,FilterTimeExpected.indexOf("h")));
+        FilterTimeAsNumber = Integer.parseInt(FilterTimeSecond);
 
 
         for (int i=0; i<FlightTimeActual.size(); i++){
