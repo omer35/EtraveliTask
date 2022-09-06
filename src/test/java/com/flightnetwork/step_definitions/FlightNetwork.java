@@ -14,9 +14,6 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
-
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
 import java.util.*;
 import java.util.concurrent.TimeUnit;
 
@@ -27,10 +24,10 @@ public class FlightNetwork {
     FlightPage flight = new FlightPage();
     Actions actions = new Actions(Driver.getDriver());
     Set<String> listExpected = new HashSet<String>();
-    public String FilterTimeExpected=new String("");
-    List<String> FlightTimeActual=new ArrayList<>();
-    public String FilterTimeSecond=new String("");
-    public int FilterTimeAsNumber=0;
+    public String FilterTimeExpected = new String("");
+    List<String> FlightTimeActual = new ArrayList<>();
+    public String FilterTimeSecond = new String("");
+
 
 
     @Given("User lands on main page")
@@ -90,12 +87,13 @@ public class FlightNetwork {
         Assert.assertEquals(ExpectedFlightResult, ActualFlightResult);
 
     }
+
     @And("user selects adult number {string}")
     public void userSelectsAdultNumber(String arg0) {
-        int adultNumber= Integer.parseInt(arg0);
+        int adultNumber = Integer.parseInt(arg0);
         main.passengerClick.click();
         Driver.getDriver().manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
-        for(int i=1; i<adultNumber;i++){
+        for (int i = 1; i < adultNumber; i++) {
             main.AdultPlusBtn.click();
             BrowserUtils.waitFor(2);
         }
@@ -104,9 +102,9 @@ public class FlightNetwork {
 
     @And("user selects children number {string}")
     public void userSelectsChildrenNumber(String arg0) {
-        int ChildrenNumber= Integer.parseInt(arg0);
+        int ChildrenNumber = Integer.parseInt(arg0);
         BrowserUtils.waitFor(2);
-        if(ChildrenNumber>0) {
+        if (ChildrenNumber > 0) {
             for (int i = 1; i <= ChildrenNumber; i++) {
                 main.ChildrenPlusBtn.click();
                 BrowserUtils.waitFor(2);
@@ -122,7 +120,7 @@ public class FlightNetwork {
     public void userSelectsInfantsNumber(String arg0) {
         int InfantsNumber = Integer.parseInt(arg0);
         BrowserUtils.waitFor(2);
-        if(InfantsNumber>0){
+        if (InfantsNumber > 0) {
             for (int i = 1; i <= InfantsNumber; i++) {
                 main.InfantsPlusBtn.click();
                 BrowserUtils.waitFor(2);
@@ -149,6 +147,9 @@ public class FlightNetwork {
 
     @Then("User can click Filter button and can be applied")
     public void user_can_click_filter_button_and_can_be_applied() {
+
+        String noFilter=flight.FilterBy.getText();
+
         BrowserUtils.waitFor(2);
         flight.filter.click();
         BrowserUtils.waitFor(2);
@@ -161,8 +162,8 @@ public class FlightNetwork {
         flight.AirlinesSelectTwo.click();
         BrowserUtils.waitFor(2);
         for (int i = 1; i < flight.AirlineListBox.size(); i++) {
-            if(flight.AirlineListBox.get(i).isSelected()){
-                listExpected.add(flight.AirlineListText.get(i-1).getText());
+            if (flight.AirlineListBox.get(i).isSelected()) {
+                listExpected.add(flight.AirlineListText.get(i - 1).getText());
 
             }
 
@@ -189,20 +190,24 @@ public class FlightNetwork {
         FilterTimeExpected = flight.TravelTimeExpected.getText();
         System.out.println("FilterTimeExpected = " + FilterTimeExpected);
         BrowserUtils.waitFor(2);
-        FilterTimeSecond=FilterTimeExpected.substring(0,FilterTimeExpected.indexOf("h"));
-
+        FilterTimeSecond = FilterTimeExpected.substring(0, FilterTimeExpected.indexOf("h"));
 
         System.out.println("FilterTimeSecond = " + FilterTimeSecond);
         BrowserUtils.waitFor(2);
 
+        String AfterFilter=flight.FilterBy.getText();
+        System.out.println("noFilter = " + noFilter);
+        System.out.println("AfterFilter = " + AfterFilter);
+        Assert.assertNotEquals(noFilter,AfterFilter);
+
         flight.DoneBtn.click();
+
     }
 
     @Then("User verify the changes")
     public void user_verify_the_changes() {
         Set<String> setActual = new HashSet<String>();
-        List<String> FiltersTimeAtTheBegin=new ArrayList<>();
-        List<String> FiltersTimeAtTheEnd=new ArrayList<>();
+
 
         for (WebElement each : flight.AirlineVerify) {
             String eachText = each.getText();
@@ -214,51 +219,15 @@ public class FlightNetwork {
         Assert.assertTrue(listExpected.containsAll(setActual));
 
 
-
-        for (WebElement eachFtime : flight.TravelTimeActual){
+        for (WebElement eachFtime : flight.TravelTimeActual) {
             String eachFtimeText = eachFtime.getText();
             FlightTimeActual.add(eachFtimeText);
         }
         System.out.println("FlightTimeActual = " + FlightTimeActual);
         System.out.println("FilterTimeSecond = " + FilterTimeSecond);
-        String xx=FilterTimeSecond;
-
-       // FilterTimeAsNumber = Integer.parseInt(xx);
 
 
-      /*  for (int i=0; i<FlightTimeActual.size(); i++){
-            String x=FlightTimeActual.get(i);
-            x=x.substring(0,x.indexOf("h"));
-            int FlightTimeActualInt = Integer.parseInt(x);
-            System.out.println(FlightTimeActualInt);
-            //Assert.assertTrue(FilterTimeAsNumber>=FlightTimeActualInt);
-        }*/
 
-        DateFormat dateFormat = new SimpleDateFormat("HH:mm");
-        Date date = new Date();
-        String date1= dateFormat.format(date);
-        for (int i = 0; i < flight.FiltersBeginning.size(); i++) {
-
-            FiltersTimeAtTheBegin.add(flight.FiltersBeginning.get(i).getText());
-            System.out.println(flight.FiltersBeginning.get(i).getText());
-
-
-        }
-        for(WebElement each6:flight.FiltersBeginning){
-            String eachFiltersBeginning=each6.getText();
-            System.out.println(eachFiltersBeginning);
-            FiltersTimeAtTheBegin.add(eachFiltersBeginning);
-        }
-        System.out.println("FiltersTimeAtTheBegin = " + FiltersTimeAtTheBegin);
-
-        for(WebElement each7:flight.FiltersEnding){
-            String eachFiltersEnding=each7.getText();
-            System.out.println(eachFiltersEnding);
-            FiltersTimeAtTheEnd.add(eachFiltersEnding);
-        }
-        System.out.println("FiltersTimeAtTheBegin = " + FiltersTimeAtTheEnd);
 
     }
-
-
 }

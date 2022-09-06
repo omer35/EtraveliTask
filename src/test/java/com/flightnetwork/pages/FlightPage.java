@@ -91,6 +91,8 @@ public class FlightPage extends BasePage{
     @FindBy(xpath = "//div[@class='css-gbzxm']")
     public List<WebElement> FiltersEnding;
 
+    @FindBy(xpath = "//span[@class='css-1q7o3zb e19cul220']")
+    public WebElement FilterBy;
 
 
 
