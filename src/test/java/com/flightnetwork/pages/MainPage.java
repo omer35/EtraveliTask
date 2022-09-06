@@ -6,6 +6,8 @@ import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
 
+import java.util.List;
+
 public class MainPage extends BasePage{
     Actions actions =new Actions(Driver.getDriver());
     public MainPage(){
@@ -19,6 +21,10 @@ public class MainPage extends BasePage{
 
     @FindBy(xpath = "(//div[@class=' css-1hwfws3'])[2]")
     public WebElement to;
+
+    @FindBy(xpath = "//div[@class='_3won560 welvw82 _3won567 _3won562']")
+    public List<WebElement> FlightType;
+
 
     @FindBy(xpath= "//input[@placeholder='Departure']")
     public WebElement departureDateClick;
@@ -67,10 +73,10 @@ public class MainPage extends BasePage{
 
     @FindBy(xpath = "(//div[@class='css-fv3lde css-1wy0on6'])[2]")
     public WebElement statu;
-    @FindBy(xpath = "//input[@value='ECONOMY']")
-    public WebElement statuSelect;
+    @FindBy(xpath = "//div[@data-testid='etiDropdownOption']")
+    public List<WebElement> statuSelect;
 
-    @FindBy(xpath = "//input[@class='_3n3vnt1']")
+    @FindBy(xpath = "//input[@data-testid='directFlight-input']")
     public WebElement directFly;
 
     @FindBy(xpath = "//button[@data-testid='searchForm-searchFlights-button']")

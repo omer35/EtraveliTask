@@ -38,6 +38,19 @@ public class FlightNetwork {
         main.cookies.click();
 
     }
+    @Then("user selects flight type {string}")
+    public void userSelectsFlightType(String arg0) {
+        BrowserUtils.waitFor(1);
+        List<WebElement> Ftype = new ArrayList<>(main.FlightType);
+        if(arg0.equals("RETURN")){
+            Ftype.get(0).click();
+        }else if(arg0.equals("ONE-WAY")){
+            Ftype.get(1).click();
+        }else if(arg0.equals("MULTI")) {
+            Ftype.get(2).click();
+        }
+        BrowserUtils.waitFor(1);
+    }
 
     @When("user selects departure airport {string}")
     public void userSelectsDepartureAirport(String expectedDepartureAirport) {
@@ -72,12 +85,6 @@ public class FlightNetwork {
 
     }
 
-    @And("user selects passenger number {string}")
-    public void userSelectsPassengerNumber(String arg0) {
-
-        main.passengerClick.click();
-
-    }
 
     @Then("user should see {string}")
     public void userShouldSee(String ExpectedFlightResult) {
@@ -132,14 +139,27 @@ public class FlightNetwork {
     public void userSelectsStatus(String arg0) {
         BrowserUtils.waitFor(1);
         main.statu.click();
-        BrowserUtils.waitFor(1);
+        BrowserUtils.waitFor(2);
+        List<WebElement> statuValue = new ArrayList<>(main.statuSelect);
+
+        if(arg0.equals("ECONOMY")){
+            statuValue.get(0).click();
+        }else if(arg0.equals("PREMIUM")){
+            statuValue.get(1).click();
+        }else if(arg0.equals("BUSINESS")) {
+            statuValue.get(2).click();
+        }else if(arg0.equals("FIRST")) {
+            statuValue.get(3).click();
+        }
+        BrowserUtils.waitFor(2);
         actions.sendKeys(Keys.ENTER).perform();
+        BrowserUtils.waitFor(4);
     }
 
     @And("User can click direct flight button and search flight button")
     public void userCanClickDirectFlightButtonAndSearchFlightButton() {
-        main.directFly.click();
 
+        main.directFly.click();
         BrowserUtils.waitFor(1);
         main.searchBtn.click();
         BrowserUtils.waitFor(4);
@@ -230,4 +250,6 @@ public class FlightNetwork {
 
 
     }
+
+
 }
