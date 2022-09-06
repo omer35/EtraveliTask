@@ -76,11 +76,13 @@ public class MainPage extends BasePage{
     @FindBy(xpath = "//div[@data-testid='etiDropdownOption']")
     public List<WebElement> statuSelect;
 
-    @FindBy(xpath = "//input[@data-testid='directFlight-input']")
+    @FindBy(xpath = "//label[@class='css-5zj62t']")
     public WebElement directFly;
 
     @FindBy(xpath = "//button[@data-testid='searchForm-searchFlights-button']")
     public WebElement searchBtn;
+
+
 
 
 
